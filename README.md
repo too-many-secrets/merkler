@@ -1,2 +1,3 @@
-# merkler
-Merkle tree manager for idea submissions on IdeaBlock
+![](https://ideablock.io/merkler.png)
+
+Merkle tree manager for daily idea uploads on [IdeaBlock](https://ideablock.io)
