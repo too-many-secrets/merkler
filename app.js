@@ -4,7 +4,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 
 // API Controllers
-const einstein = require('./einstein.js')
+const merkler = require('./merkler.js')
 
 // Create Express Server and Configuration
 const app = express()
@@ -14,7 +14,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 
 
 // Route
-app.post('/', einstein.prove)
+app.post('/', merkler.addHash)
 app.get('/', function (req, res) {
   res.send('YOU ARE GETTING WHEN YOU SHOULD BE POSTING')
 })
