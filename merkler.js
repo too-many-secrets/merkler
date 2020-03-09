@@ -35,7 +35,7 @@ function hasher (user, hash, exists, index, res) {
     return res.status(200).json({ status: 'added user' })
   } else if (exists && index > -1) {
     console.log('In day exists and user object exists')
-    const getDayDoc = dayDocRef.get()
+    dayDocRef.get()
       .then(doc => {
         if (!doc.exists) console.log('No such document')
         else {
@@ -63,7 +63,7 @@ function hasher (user, hash, exists, index, res) {
               tree: ''
             }
             console.log('new user object before update: ' + JSON.stringify(newUserObj))
-            const userArrAdd = dayDocRef.update({
+            dayDocRef.update({
               users: admin.firestore.FieldValue.arrayUnion(newUserObj)
             })
             return res.status(200).json({ status: 'should have added updated hash' })
