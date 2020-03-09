@@ -31,7 +31,7 @@ function hasher (user, hash, exists, index, res) {
     return res.status(200).json({ status: 'added user object' })
   } else if (!exists && index === -2) {
     console.log('In day does not exist')
-    dayDocRef.set(newDayDoc, { merge: true })
+    dayDocRef.set(newDayDoc)
     return res.status(200).json({ status: 'added user' })
   } else if (exists && index > -1) {
     console.log('In day exists and user object exists')
@@ -40,31 +40,34 @@ function hasher (user, hash, exists, index, res) {
         if (!doc.exists) console.log('No such document')
         else {
           // first, remove existing user object from users array
-          console.log("DOC: " + JSON.stringify(doc.data()))
+          console.log('DOC: ' + JSON.stringify(doc.data()))
           const userObj = doc.data().users[index]
           console.log('userobj:' + JSON.stringify(userObj))
-          let userArrRemove = dayDocRef.update({
+          dayDocRef.update({
             users: admin.firestore.FieldValue.arrayRemove(userObj)
+          }).then(() => {
+            dayDocRef.get()
+          }).then(doc => {
+            // then add updated user object with new hash to users array
+            let userHashes = userObj.hashes
+            console.log('userHashes: ' + JSON.stringify(userHashes))
+            console.log('typeof userHashes: ' + typeof userHashes)
+            let userHashesArray = userHashes.push(hash)
+            console.log('user hashes array after push: ' + userHashesArray)
+            const newUserObj = {
+              userId: user,
+              hashes: userHashes,
+              root: '',
+              btcTx: '',
+              ltcTx: '',
+              tree: ''
+            }
+            console.log('new user object before update: ' + JSON.stringify(newUserObj))
+            const userArrAdd = dayDocRef.update({
+              users: admin.firestore.FieldValue.arrayUnion(newUserObj)
+            })
+            return res.status(200).json({ status: 'should have added updated hash' })
           })
-          // then add updated user object with new hash to users array
-          let userHashes = userObj.hashes
-          console.log('userHashes: ' + JSON.stringify(userHashes))
-          console.log('typeof userHashes: ' + typeof userHashes)
-          let userHashesArray = userHashes.push(hash)
-          console.log('user hashes array after push: ' + userHashesArray)
-          const newUserObj = {
-            userId: user,
-            hashes: userHashes,
-            root: '',
-            btcTx: '',
-            ltcTx: '',
-            tree: ''
-          }
-          console.log('new user object before update: ' + JSON.stringify(newUserObj))
-          const userArrAdd = dayDocRef.update({
-            users: admin.firestore.FieldValue.arrayUnion(newUserObj)
-          })
-          return res.status(200).json({ status: 'should have added updated hash' })
         }
       })
       .catch(err => console.log(err))
