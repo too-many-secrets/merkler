@@ -132,3 +132,8 @@ exports.addHash = (req, res) => {
     hasher(userName, hash, dayExists, userIndex, res)
   })
 }
+
+exports.merk = (req, res) => {
+  dayDocRef.get()
+      .then(doc => {
+}
