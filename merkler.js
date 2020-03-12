@@ -140,14 +140,13 @@ exports.merk = (req, res) => {
   dayDocRef.get()
     .then(doc => {
       dayArray = doc.data().users
-      console.log(dayArray)
       dayArray.forEach(element => {
         const tree = new MerkleTree(element.hashes, SHA256)
         const root = tree.getRoot().toString('hex')
         element.root = root
         element.tree = tree.getLeaves()
       })
-      async.each(dayArray, function (element, callback) {
+      async.eachSeries(dayArray, function (element, callback) {
         const tetherBody = {
           userId: element.userId,
           hash: element.root
@@ -161,7 +160,6 @@ exports.merk = (req, res) => {
           .then(json => {
             element.btcTx = json.btcTx
             element.ltcTx = json.ltcTx
-            console.log(element)
             callback()
           })
           .catch(err => console.log(err))
@@ -169,6 +167,7 @@ exports.merk = (req, res) => {
         function (err) {
           if (err) console.log(err)
           dayDocRef.set({ users: dayArray })
+          res.status(200).json({users: dayArray})
         }
       )
     })
