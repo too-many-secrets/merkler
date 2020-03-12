@@ -14,7 +14,9 @@ app.use(bodyParser.urlencoded({ extended: true }))
 
 
 // Route
-app.post('/', merkler.addHash)
+app.post('/addHash', merkler.addHash)
+app.post('/merk', merkler.merk)
+
 app.get('/', function (req, res) {
   res.send('YOU ARE GETTING WHEN YOU SHOULD BE POSTING')
 })

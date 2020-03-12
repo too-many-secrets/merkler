@@ -1,16 +1,18 @@
 const async = require('async')
 const dotenv = require('dotenv')
+const fetch = require('node-fetch')
 dotenv.config()
 const admin = require('firebase-admin')
 const Firestore = require('@google-cloud/firestore')
 const path = require('path')
+const SHA256 = require('crypto-js/sha256')
+const { MerkleTree } = require('merkletreejs')
 const db = new Firestore({
   projectId: process.env.GCP_PROJECT_ID,
   keyFilename: path.join(__dirname, process.env.GCP_FIRESTORE_KEYFILE)
 })
 const today = getMonthNumber() + '-' + getDOM() + '-' + getYear()
 const dayDocRef = db.collection('day').doc(today)
-
 function hasher (user, hash, exists, index, res) {
   const newUser = {
     userId: user,
@@ -134,6 +136,40 @@ exports.addHash = (req, res) => {
 }
 
 exports.merk = (req, res) => {
+  let dayArray = []
   dayDocRef.get()
-      .then(doc => {
+    .then(doc => {
+      dayArray = doc.data().users
+      console.log(dayArray)
+      dayArray.forEach(element => {
+        const tree = new MerkleTree(element.hashes, SHA256)
+        const root = tree.getRoot().toString('hex')
+        element.root = root
+        element.tree = tree.getLeaves()
+      })
+      async.each(dayArray, function (element, callback) {
+        const tetherBody = {
+          userId: element.userId,
+          hash: element.root
+        }
+        fetch('https://tether.ideablock.io', {
+          method: 'post',
+          body: JSON.stringify(tetherBody),
+          headers: { 'Content-Type': 'application/json' }
+        })
+          .then(res => res.json())
+          .then(json => {
+            element.btcTx = json.btcTx
+            element.ltcTx = json.ltcTx
+            console.log(element)
+            callback()
+          })
+          .catch(err => console.log(err))
+      },
+        function (err) {
+          if (err) console.log(err)
+          dayDocRef.set({ users: dayArray })
+        }
+      )
+    })
 }
