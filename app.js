@@ -12,7 +12,6 @@ app.set('port', process.env.PORT)
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
-
 // Route
 app.post('/addHash', merkler.addHash)
 app.post('/merk', merkler.merk)

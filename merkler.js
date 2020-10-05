@@ -51,10 +51,10 @@ function hasher (user, hash, exists, index, res) {
             dayDocRef.get()
           }).then(doc => {
             // then add updated user object with new hash to users array
-            let userHashes = userObj.hashes
+            const userHashes = userObj.hashes
             console.log('userHashes: ' + JSON.stringify(userHashes))
             console.log('typeof userHashes: ' + typeof userHashes)
-            let userHashesArray = userHashes.push(hash)
+            const userHashesArray = userHashes.push(hash)
             console.log('user hashes array after push: ' + userHashesArray)
             const newUserObj = {
               userId: user,
@@ -164,11 +164,11 @@ exports.merk = (req, res) => {
           })
           .catch(err => console.log(err))
       },
-        function (err) {
-          if (err) console.log(err)
-          dayDocRef.set({ users: dayArray })
-          res.status(200).json({users: dayArray})
-        }
+      function (err) {
+        if (err) console.log(err)
+        dayDocRef.set({ users: dayArray })
+        res.status(200).json({ users: dayArray })
+      }
       )
     })
 }
