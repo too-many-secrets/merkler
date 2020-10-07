@@ -16,7 +16,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.post('/addHash', merkler.addHash)
 app.post('/merk', merkler.merk)
 
-app.get('/', function (req, res) {
+app.get('/hello', function (req, res) {
   res.send('YOU ARE GETTING WHEN YOU SHOULD BE POSTING')
 })
 // Spin Up Server

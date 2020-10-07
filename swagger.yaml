@@ -1,0 +1,59 @@
+swagger: "2.0"
+info:
+  title: "IdeaBlock Merkler"
+  version: "0.0.2"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "ideablock-merkler.appspot.com"
+schemes:
+- "https"
+- "http"
+paths:
+  /addHash:
+    post:
+      summary: "Add a new idea hash to a user or organization hopper"
+      operationId: "addHash"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "id"
+        description: "Unique user or organization id"
+        required: true
+        schema:
+          $ref: "#/definitions/Body"
+      responses:
+        "404":
+          description: "Rekt"
+        "200":
+          description: "Hash added"
+  /merk:
+    post:
+      summary: "Generate merkle tree for each user or organization and tether to BTC and LTC"
+      operationId: "merk"
+      responses:
+        "404":
+          description: "Rekt"
+        "200":
+          description: "Execution successful"
+definitions:
+  Body:
+    type: "object"
+    required:
+    - "id"
+    - "hash"
+    properties:
+      id:
+        type: "string"
+        format: "int64"
+        example: "acme"
+      hash:
+        type: "string"
+        format: "int64"
+        example: "2b5f488c4a939f4fecad3225059115091df56bd575a368618e08052c98cb9dc9"
+externalDocs:
+  description: "Find out more about IdeaBlock"
+  url: "http://ideablock.io"
