@@ -60,9 +60,9 @@ function hasher (user, hash, exists, index, res) {
               userId: user,
               hashes: userHashes,
               root: '',
+              layers: {},
               btcTx: '',
-              ltcTx: '',
-              tree: ''
+              ltcTx: ''
             }
             console.log('new user object before update: ' + JSON.stringify(newUserObj))
             dayDocRef.update({
