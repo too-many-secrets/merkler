@@ -1,6 +1,6 @@
 {
   "name": "merkler",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Ping idea endpoints for archival proof of availability and existence of idea sites on IdeaBlock.",
   "main": "app.js",
   "scripts": {

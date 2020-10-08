@@ -144,7 +144,7 @@ exports.merk = (req, res) => {
         const tree = new MerkleTree(element.hashes, SHA256)
         const root = tree.getRoot().toString('hex')
         element.root = root
-        element.tree = tree.getLeaves()
+        element.layers = tree.getLayersAsObject()
       })
       async.eachSeries(dayArray, function (element, callback) {
         const tetherBody = {
