@@ -18,9 +18,9 @@ function hasher (user, hash, exists, index, res) {
     userId: user,
     hashes: [hash],
     root: '',
+    layers: {},
     btcTx: '',
-    ltcTx: '',
-    tree: ''
+    ltcTx: ''
   }
   const newDayDoc = {
     users: [newUser]
