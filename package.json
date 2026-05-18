@@ -1,21 +1,22 @@
 {
   "name": "merkler",
-  "version": "0.0.4",
-  "description": "Ping idea endpoints for archival proof of availability and existence of idea sites on IdeaBlock.",
+  "version": "2.0.0",
+  "description": "Per-org Merkle tree builder — batches daily idea hashes, pins roots to Bitcoin via timeglue. Supports Bolt Ideas for immediate on-chain pinning.",
   "main": "app.js",
   "scripts": {
-    "test": "test",
-    "start": "node app.js"
+    "start": "node app.js",
+    "test": "node test/merkler.test.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ideablock/merkler.git"
   },
   "keywords": [
-    "IP",
-    "Idea",
-    "IdeaBlock",
-    "Blockchain"
+    "bitcoin",
+    "blockchain",
+    "merkle",
+    "ideablock",
+    "proof-of-existence"
   ],
   "author": "Eli M. Sheets",
   "license": "Apache-2.0",
@@ -24,18 +25,17 @@
   },
   "homepage": "https://github.com/ideablock/merkler#readme",
   "dependencies": {
-    "@google-cloud/firestore": "^3.5.1",
-    "async": "^3.2.0",
-    "body-parser": "^1.19.0",
-    "crypto-js": "^4.0.0",
-    "dotenv": "^8.2.0",
-    "express": "^4.17.1",
-    "firebase-admin": "^8.9.2",
-    "merkletreejs": "^0.1.11",
-    "node-fetch": "^2.6.0",
-    "string": "^3.3.3"
+    "@google-cloud/firestore": "^6.8.0",
+    "async": "^3.2.4",
+    "body-parser": "^1.20.2",
+    "crypto-js": "^4.2.0",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "merkletreejs": "^0.3.11",
+    "node-cron": "^3.0.3",
+    "node-fetch": "^2.7.0"
   },
   "devDependencies": {
-    "eslint": "^6.8.0"
+    "eslint": "^8.57.0"
   }
 }
