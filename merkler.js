@@ -48,15 +48,18 @@ const BOLT_FEE_MULTIPLIER = 1.5
 
 // ── Firestore client ──────────────────────────────────────────────────────────
 
+const FIRESTORE_DATABASE = process.env.GCP_FIRESTORE_DATABASE || 'merkler-db'
+
 let db
 if (process.env.GCP_FIRESTORE_KEYFILE) {
   db = new Firestore({
     projectId: process.env.GCP_PROJECT_ID,
-    keyFilename: path.join(__dirname, process.env.GCP_FIRESTORE_KEYFILE)
+    keyFilename: process.env.GCP_FIRESTORE_KEYFILE,
+    databaseId: FIRESTORE_DATABASE
   })
 } else if (process.env.GCP_PROJECT_ID) {
   // Application Default Credentials (Cloud Run, GKE, etc.)
-  db = new Firestore({ projectId: process.env.GCP_PROJECT_ID })
+  db = new Firestore({ projectId: process.env.GCP_PROJECT_ID, databaseId: FIRESTORE_DATABASE })
 } else {
   console.warn('merkler: ⚠️  No GCP credentials — Firestore calls will fail. Set GCP_PROJECT_ID and optionally GCP_FIRESTORE_KEYFILE.')
   db = null
